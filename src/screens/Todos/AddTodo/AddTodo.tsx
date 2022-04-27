@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Input, Button } from 'src/components';
+import { Input, Button, Switch } from 'src/components';
 import { useSetRecoilState } from 'recoil';
 import { todoListState } from 'src/store';
-import { v4 as uuidv4 } from 'uuid';
-import { Container, Controls } from './AddTodo.styled';
+import { Container, Controls, SwitchContainer } from './AddTodo.styled';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { RootStackParamList } from 'src/types';
 import { useNavigation } from '@react-navigation/native';
+import { getUniqueId } from 'src/utils';
+import { Text } from 'react-native';
 
 type AddTodoScreenNavigationProp = NativeStackNavigationProp<
   RootStackParamList,
@@ -18,18 +19,24 @@ export function AddTodo() {
   const setTodoList = useSetRecoilState(todoListState);
   const [todoText, setTodoText] = useState('');
 
+  const [completed, setCompleted] = useState(false);
+  const toggleCompleted = () => setCompleted((completed) => !completed);
+
   const onAddTodo = () => {
     if (todoText) {
       setTodoList((todoList) => [
         ...todoList,
         {
-          id: uuidv4(),
+          id: getUniqueId(),
           text: todoText,
+          completed,
         },
       ]);
       navigation.navigate('Todos');
     }
   };
+
+  const onBackToTodoList = () => navigation.navigate('Todos');
 
   return (
     <Container>
@@ -38,8 +45,15 @@ export function AddTodo() {
         onChangeText={setTodoText}
         placeholder="Todo text"
       />
+      <SwitchContainer>
+        <Text>Completed:</Text>
+        <Switch onValueChange={toggleCompleted} value={completed} />
+      </SwitchContainer>
       <Controls>
-        <Button onPress={onAddTodo}>Add Todo</Button>
+        <Button style={{ marginRight: 16 }} onPress={onAddTodo}>
+          Add Todo
+        </Button>
+        <Button onPress={onBackToTodoList}>Back to list</Button>
       </Controls>
     </Container>
   );

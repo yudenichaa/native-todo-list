@@ -1,16 +1,10 @@
-import { ReactNode } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { TouchableOpacity, TouchableOpacityProps } from 'react-native';
 import { StyledButton, ButtonText } from './Button.styled';
 
-interface ButtonProps {
-  onPress: VoidFunction;
-  children: ReactNode;
-}
-
-export function Button({ onPress, children }: ButtonProps) {
+export function Button({ children, style, ...props }: TouchableOpacityProps) {
   return (
-    <TouchableOpacity onPress={onPress}>
-      <StyledButton>
+    <TouchableOpacity {...props}>
+      <StyledButton style={style}>
         {typeof children === 'string' ? (
           <ButtonText>{children}</ButtonText>
         ) : (

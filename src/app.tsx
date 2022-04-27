@@ -1,5 +1,5 @@
 import { registerRootComponent } from 'expo';
-import { Todos, AddTodo } from 'src/screens';
+import { Todos, AddTodo, Todo, EditTodo } from 'src/screens';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -27,6 +27,20 @@ function App() {
               component={AddTodo}
               options={{
                 title: 'Add Todo',
+              }}
+            />
+            <Stack.Screen
+              name="Todo"
+              component={Todo}
+              options={{
+                title: 'Todo',
+              }}
+            />
+            <Stack.Screen
+              name="EditTodo"
+              component={EditTodo}
+              options={{
+                title: 'Edit Todo',
               }}
             />
           </Stack.Navigator>

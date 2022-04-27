@@ -1,6 +1,10 @@
-import { Text } from 'react-native';
-import { Todo } from 'src/types';
-import { Item } from './ListItem.styled';
+import { TouchableOpacity } from 'react-native';
+import { RootStackParamList, Todo } from 'src/types';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
+import { Item, TodoText } from './ListItem.styled';
+
+type ListItemNavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface ListItemProps {
   todo: Todo;
@@ -8,11 +12,17 @@ interface ListItemProps {
 }
 
 export function ListItem({ todo, listNumber }: ListItemProps) {
+  const navigation = useNavigation<ListItemNavigationProp>();
+
   return (
-    <Item>
-      <Text>
-        {listNumber}) {todo.text}
-      </Text>
-    </Item>
+    <TouchableOpacity
+      onPress={() => navigation.navigate('Todo', { todoId: todo.id })}
+    >
+      <Item>
+        <TodoText completed={todo.completed}>
+          {listNumber}) {todo.text}
+        </TodoText>
+      </Item>
+    </TouchableOpacity>
   );
 }
