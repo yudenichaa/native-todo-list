@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import { Todo } from 'src/types';
 
 export const todoListState = atom({
   key: 'TodoList',
@@ -23,5 +24,5 @@ export const todoListState = atom({
       text: 'Create another project',
       completed: false,
     },
-  ],
+  ] as Todo[],
 });
